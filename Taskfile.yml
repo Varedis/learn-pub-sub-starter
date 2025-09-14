@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: '3'
+
+dotenv: ['.env']
+
+tasks:
+  setup:
+    desc: Setup Project
+    cmds:
+      - go mod download
+
+  rabbit:start:
+    desc: Start Rabbit MQ
+    cmds:
+      - sh ./rabbit.sh start
+
+  rabbit:stop:
+    desc: Stop Rabbit MQ
+    cmds:
+      - sh ./rabbit.sh stop
+
+  rabbit:logs:
+    desc: View Rabbit MQ Logs
+    cmds:
+      - sh ./rabbit.sh logs
