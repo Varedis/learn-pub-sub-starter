@@ -24,3 +24,8 @@ tasks:
     desc: View Rabbit MQ Logs
     cmds:
       - sh ./rabbit.sh logs
+  
+  start:server:
+    desc: Start the Server
+    cmds:
+      - go run ./cmd/server

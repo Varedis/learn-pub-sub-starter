@@ -24,15 +24,26 @@ $ mise install
 $ task setup
 ```
 
-## Rabbit MQ
+## RabbitMQ
 
 ```sh
-# Start Rabbit MQ server
+# Start RabbitMQ server
 $ task rabbit:start
 
-# Stop Rabbit MQ server
+# Stop RabbitMQ server
 $ task rabbit:stop
 
-# View Rabbit MQ logs
+# View RabbitMQ logs
 $ task rabbit:logs
 ```
+
+## Running the application
+
+```sh
+# Start the RabbitMQ server
+$ task rabbit:start
+
+# Start our Peril server after the RabbitMQ server has booted
+$ task start:server
+```
+
