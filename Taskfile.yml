@@ -10,22 +10,22 @@ tasks:
     cmds:
       - go mod download
 
-  rabbit:start:
-    desc: Start Rabbit MQ
-    cmds:
-      - sh ./rabbit.sh start
-
-  rabbit:stop:
-    desc: Stop Rabbit MQ
-    cmds:
-      - sh ./rabbit.sh stop
-
-  rabbit:logs:
-    desc: View Rabbit MQ Logs
-    cmds:
-      - sh ./rabbit.sh logs
-  
   start:server:
     desc: Start the Server
     cmds:
       - go run ./cmd/server
+  
+  up:
+    desc: Setup the infrastructure
+    cmds:
+      - docker compose --profile infra up --wait
+  
+  stop:
+    desc: Stop the infrastructure
+    cmds:
+      - docker compose --profile infra stop
+
+  down:
+    desc: Teardown the infrastructure
+    cmds:
+      - docker compose --profile infra down --timeout 0

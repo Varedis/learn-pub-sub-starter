@@ -24,26 +24,23 @@ $ mise install
 $ task setup
 ```
 
-## RabbitMQ
-
-```sh
-# Start RabbitMQ server
-$ task rabbit:start
-
-# Stop RabbitMQ server
-$ task rabbit:stop
-
-# View RabbitMQ logs
-$ task rabbit:logs
-```
-
 ## Running the application
 
-```sh
-# Start the RabbitMQ server
-$ task rabbit:start
+1. Create a `.env` file and add the following:
 
-# Start our Peril server after the RabbitMQ server has booted
-$ task start:server
+```
+RABBIT_MQ_CONNECTION=amqp://guest:guest@localhost:5672/
+```
+
+2. Set up and run the infrastructure using docker compose
+
+```sh
+task up
+```
+
+3. Start the Peril server
+
+```sh
+task start:server
 ```
 
