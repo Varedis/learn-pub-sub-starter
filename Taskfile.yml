@@ -11,9 +11,14 @@ tasks:
       - go mod download
 
   start:server:
-    desc: Start the Server
+    desc: Start the Peril Server
     cmds:
       - go run ./cmd/server
+
+  start:client:
+    desc: Start the Peril Client
+    cmds:
+      - go run ./cmd/client
   
   up:
     desc: Setup the infrastructure
