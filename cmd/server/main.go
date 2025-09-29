@@ -7,6 +7,7 @@ import (
 
 	"github.com/joho/godotenv"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"github.com/varedis/learn-pub-sub-starter/internal/gamelogic"
 	"github.com/varedis/learn-pub-sub-starter/internal/pubsub"
 	"github.com/varedis/learn-pub-sub-starter/internal/routing"
 )
@@ -32,17 +33,51 @@ func main() {
 		log.Fatalf("could not create channel: %v", err)
 	}
 
-	err = pubsub.PublishJSON(
-		publishCh,
-		routing.ExchangePerilDirect,
-		routing.PauseKey,
-		routing.PlayingState{
-			IsPaused: true,
-		},
-	)
-	if err != nil {
-		log.Printf("could not publish state: %v", err)
+	gamelogic.PrintServerHelp()
+
+	for {
+		input := gamelogic.GetInput()
+		fmt.Println(input)
+		if len(input) == 0 {
+			continue
+		}
+		switch input[0] {
+		case "pause":
+			fmt.Println("sending pause message...")
+
+			err = pubsub.PublishJSON(
+				publishCh,
+				routing.ExchangePerilDirect,
+				routing.PauseKey,
+				routing.PlayingState{
+					IsPaused: true,
+				},
+			)
+			if err != nil {
+				log.Printf("could not publish state: %v", err)
+			}
+			fmt.Println("Pause message sent!")
+		case "resume":
+			fmt.Println("sending resume message...")
+
+			err = pubsub.PublishJSON(
+				publishCh,
+				routing.ExchangePerilDirect,
+				routing.PauseKey,
+				routing.PlayingState{
+					IsPaused: false,
+				},
+			)
+			if err != nil {
+				log.Printf("could not publish state: %v", err)
+			}
+			fmt.Println("Resume message sent!")
+		case "quit":
+			fmt.Println("exiting...")
+			return
+		default:
+			fmt.Println("unkown command")
+		}
 	}
-	fmt.Println("Pause message sent!")
 
 }
