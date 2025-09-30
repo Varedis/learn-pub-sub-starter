@@ -37,7 +37,6 @@ func main() {
 
 	for {
 		input := gamelogic.GetInput()
-		fmt.Println(input)
 		if len(input) == 0 {
 			continue
 		}

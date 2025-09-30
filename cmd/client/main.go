@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"os/signal"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/varedis/learn-pub-sub-starter/internal/gamelogic"
@@ -44,8 +43,38 @@ func main() {
 	}
 	fmt.Printf("Queue %v declared and bound!\n", queue.Name)
 
-	// Wait for ctrl+c
-	signalChan := make(chan os.Signal, 1)
-	signal.Notify(signalChan, os.Interrupt)
-	<-signalChan
+	gameState := gamelogic.NewGameState(username)
+
+	for {
+		input := gamelogic.GetInput()
+		if len(input) == 0 {
+			continue
+		}
+		switch input[0] {
+		case "move":
+			_, err := gameState.CommandMove(input)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+			// TODO: publish move
+		case "spawn":
+			err := gameState.CommandSpawn(input)
+			if err != nil {
+				fmt.Println(err)
+				continue
+			}
+		case "status":
+			gameState.CommandStatus()
+		case "help":
+			gamelogic.PrintClientHelp()
+		case "spam":
+			fmt.Println("Spamming not allowed yet!")
+		case "quit":
+			gamelogic.PrintQuit()
+			return
+		default:
+			fmt.Println("unkown command")
+		}
+	}
 }
